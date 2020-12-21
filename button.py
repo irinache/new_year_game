@@ -1,41 +1,30 @@
 import pygame
-from new_year_game.colors import *
+from new_year_game.text import Text
 
 
 class Button(pygame.sprite.Sprite):
-    def __init__(self, screen, message, color, hover_color, position_x, position_y, width, height, action=None):
+    def __init__(self, screen, message, color, hover_color, text_color, position_y, width, height, action=None):
         pygame.sprite.Sprite.__init__(self)
 
         # initialize image property
         self.image = pygame.Surface((width, height))
         self.image.fill(color)
 
-
         # initialize rect property and sprite position
         self.rect = self.image.get_rect()
-        self.rect.top = position_y
-        self.rect.left = position_x
+        self.rect.center = (screen.get_width() / 2, position_y)
 
         self.color = color
         self.hover_color = hover_color
+        self.text_color = text_color
         self.action = action
         self.message = message
         self.screen = screen
-
-        self.set_text()
-
-    # render text sprite
-    @staticmethod
-    def text_objects(text, font):
-        text_surface = font.render(text, True, BLACK)
-        return text_surface, text_surface.get_rect()
+        self.position_y = position_y
+        self.text = Text(self.screen, self.message, self.text_color, self.position_y, "Montserrat-Regular", 16)
 
     def set_text(self):
-        start_button_text = pygame.font.Font('fonts/Montserrat-Regular.ttf', 16)
-        button_text_surf, button_text_rect = self.text_objects(self.message, start_button_text)
-        button_text_rect.center = (
-        self.rect.left + (self.image.get_width() / 2), (self.rect.top + (self.image.get_height() / 2)))
-        self.screen.blit(button_text_surf, button_text_rect)
+        self.text = Text(self.screen, self.message, self.text_color, self.position_y, "Montserrat-Regular", 16)
 
     def update(self):
         # get mouse position
@@ -45,7 +34,6 @@ class Button(pygame.sprite.Sprite):
 
         # if mouse hover button
         if self.rect.collidepoint(mouse):
-            # draw rect with hover color
             self.image.fill(self.hover_color)
             # if clicked do action
             if click[0] == 1 and self.action is not None:
