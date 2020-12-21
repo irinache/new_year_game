@@ -19,13 +19,13 @@ class Santa(pygame.sprite.Sprite):
         self.screen = screen
 
     def update(self, keys):
-        if self.rect.left <= (self.screen.get_width() - self.image.get_width()) and keys[2]:
-            self.rect.x += 5
-        if keys[0]:
-            self.rect.y -= 5
-        elif keys[1]:
-            self.rect.y += 5
-        elif keys[3]:
-            self.rect.x -= 5
+        if self.rect.left < (self.screen.get_width() - self.image.get_width()) and keys[2]:
+            self.rect.x += 6
+        if self.rect.top > 0 and keys[0]:
+            self.rect.y -= 6
+        if self.rect.top < (self.screen.get_height() - self.image.get_height()) and keys[1]:
+            self.rect.y += 6
+        if self.rect.left > 0 and keys[3]:
+            self.rect.x -= 6
 
 
