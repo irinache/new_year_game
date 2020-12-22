@@ -1,4 +1,5 @@
 from new_year_game.colors import *
+from new_year_game.game_field import GameField
 from new_year_game.game_screen import GameScreen
 from new_year_game.menu_screen import MenuScreen
 from new_year_game.santa import Santa
@@ -26,6 +27,8 @@ class Game:
         self.screen = self.menu_screen.get_screen()
         self.santa = Santa(self.screen)
         self.keys = [False, False, False, False]
+        self.field = GameField(self.screen)
+        self.wood = self.field.generate_field()
 
 
         # draw buttons
@@ -35,6 +38,7 @@ class Game:
         self.menu.add(self.menu_screen.get_start_button())
         self.menu.add(self.menu_screen.get_quit_button())
         self.game_field.add(self.santa)
+        self.game_field.add(self.wood)
 
     # quit game method
     @staticmethod
