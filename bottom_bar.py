@@ -23,19 +23,21 @@ class BottomBar(pygame.sprite.Sprite):
         self.lives_count = None
         self.prize_label = None
         self.prize_count = None
+        self.lives_count_value = "5"
+        self.prize_count_value = "0"
 
     def set_text(self):
         self.lives_label = Text(self.screen, "Lives:", WHITE, 520, 30, "Montserrat-Regular", 16, "l")
-        self.lives_count = Text(self.screen, "5", WHITE, 520, 150, "Montserrat-Regular", 16, "l")
+        self.lives_count = Text(self.screen, self.lives_count_value, WHITE, 520, 150, "Montserrat-Regular", 16, "l")
 
         self.prize_label = Text(self.screen, "Prizes:", WHITE, 540, 30, "Montserrat-Regular", 16, "l")
-        self.prize_count = Text(self.screen, "0", WHITE, 540, 150, "Montserrat-Regular", 16, "l")
+        self.prize_count = Text(self.screen, self.prize_count_value, WHITE, 540, 150, "Montserrat-Regular", 16, "l")
 
     def set_lives_count(self, count):
-        self.lives_count = count
+        self.lives_count_value = str(count)
 
     def set_prize_count(self, count):
-        self.prize_count = count
+        self.prize_count_value = str(count)
 
     def update(self, keys, field):
         self.image.fill(self.color)

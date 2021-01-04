@@ -128,8 +128,10 @@ class Game:
                         self.keys[3] = False
 
             # rendering
+            self.bar.set_prize_count(self.santa.prizes)
             self.screen.fill(BACKGROUND)
             self.game_field.draw(self.screen.get_screen())
+
 
             # update display
             self.game_field.update(self.keys, self.game_field)
