@@ -1,3 +1,4 @@
+from new_year_game.bottom_bar import BottomBar
 from new_year_game.colors import *
 from new_year_game.game_field import GameField
 from new_year_game.game_screen import GameScreen
@@ -24,22 +25,24 @@ class Game:
         self.intro = True
         self.clock = pygame.time.Clock()
         self.fps = 30
-        self.menu_screen = MenuScreen()
-        self.game_screen = GameScreen()
-        self.screen = self.menu_screen.get_screen()
-        self.santa = Santa(self.screen)
-        self.keys = [False, False, False, False]
-        self.field = GameField(self.screen)
-        self.wood = self.field.generate_field()
+        #self.menu_screen = MenuScreen(500, 300)
+        self.screen = MenuScreen(500, 300)
+        #self.game_screen = GameScreen(500, 570)
+        #self.screen = self.menu_screen.get_screen()
+        self.santa = None
+        self.keys = []
+        self.field = None
+        self.wood = []
+        self.prizes = []
+        self.bar = None
 
         # draw buttons
-        self.menu_screen.draw_buttons(self.start, self.quit_game)
+        self.screen.draw_buttons(self.start, self.quit_game)
 
         # initialize sprite groups
-        self.menu.add(self.menu_screen.get_start_button())
-        self.menu.add(self.menu_screen.get_quit_button())
-        self.game_field.add(self.santa)
-        self.game_field.add(self.wood)
+        self.menu.add(self.screen.get_start_button())
+        self.menu.add(self.screen.get_quit_button())
+
 
     # quit game method
     @staticmethod
@@ -59,12 +62,13 @@ class Game:
 
             # fill background
             self.screen.fill(BACKGROUND)
+            self.screen.fill(BACKGROUND)
 
             # create heading
-            text = Text(self.screen, "New Year Game", BLACK, 50, "Montserrat-Regular", 30)
+            text = Text(self.screen, "New Year Game", BLACK, 50, 0, "Montserrat-Regular", 30, "c")
             self.menu.add(text)
 
-            self.menu.draw(self.screen)
+            self.menu.draw(self.screen.get_screen())
             self.menu.update()
 
             # update display
@@ -73,13 +77,25 @@ class Game:
     def start(self):
         self.intro = False
 
-        self.screen = self.game_screen.get_screen()
-
         # run main loop
         self.game_loop()
 
     # main game loop
     def game_loop(self):
+
+        self.screen = GameScreen(500, 570)
+
+        self.santa = Santa(self.screen)
+        self.keys = [False, False, False, False]
+        self.field = GameField(self.screen)
+        self.wood = self.field.generate_field()
+        self.prizes = self.field.place_prizes()
+        self.bar = BottomBar(self.screen, BAR_BACKGROUND, self.screen.get_width(), 60)
+
+        self.game_field.add(self.santa)
+        self.game_field.add(self.wood)
+        self.game_field.add(self.prizes)
+        self.game_field.add(self.bar)
 
         running = True
         while running:
@@ -111,11 +127,12 @@ class Game:
                     elif event.key == pygame.K_LEFT:
                         self.keys[3] = False
 
-            self.game_field.update(self.keys, self.game_field)
-
             # rendering
             self.screen.fill(BACKGROUND)
-            self.game_field.draw(self.screen)
+            self.game_field.draw(self.screen.get_screen())
+
+            # update display
+            self.game_field.update(self.keys, self.game_field)
 
             # after drawing flip screen
             pygame.display.flip()

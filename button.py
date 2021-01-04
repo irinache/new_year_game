@@ -12,7 +12,7 @@ class Button(pygame.sprite.Sprite):
 
         # initialize rect property and sprite position
         self.rect = self.image.get_rect()
-        self.rect.center = (screen.get_width() / 2, position_y)
+        self.rect.center = (screen.get_screen().get_width() / 2, position_y)
 
         self.color = color
         self.hover_color = hover_color
@@ -21,10 +21,13 @@ class Button(pygame.sprite.Sprite):
         self.message = message
         self.screen = screen
         self.position_y = position_y
-        self.text = Text(self.screen, self.message, self.text_color, self.position_y, "Montserrat-Regular", 16)
+        self.position_x = 0
+        self.text = Text(self.screen, self.message, self.text_color, self.position_y, self.position_x,
+                         "Montserrat-Regular", 16, "c")
 
     def set_text(self):
-        self.text = Text(self.screen, self.message, self.text_color, self.position_y, "Montserrat-Regular", 16)
+        self.text = Text(self.screen, self.message, self.text_color, self.position_y, self.position_x,
+                         "Montserrat-Regular", 16, "c")
 
     def update(self):
         # get mouse position

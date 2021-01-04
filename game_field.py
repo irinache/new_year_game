@@ -1,7 +1,8 @@
-from random import randint
+from random import randint, random
 
 import numpy as np
 
+from new_year_game.prize import Prize
 from new_year_game.tree import Tree
 
 
@@ -20,20 +21,8 @@ class GameField:
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         ]
         self.trees = []
+        self.prizes = []
         self.screen = screen
-
-    # def generate_field(self):
-    #     tree_counter = 40
-    #     while tree_counter > 0:
-    #         i = randint(0, 9)
-    #         j = randint(0, 9)
-    #         if self.field[i][j] != 1:
-    #             self.field[i][j] = 1
-    #             tree = Tree(i, j)
-    #             self.trees.append(tree)
-    #             tree_counter -= 1
-    #     print(self.field)
-    #     return self.trees
 
     def generate_field(self):
         tree_counter = 100
@@ -54,7 +43,7 @@ class GameField:
                 beginning = None
                 end = None
                 for i in range(start_i - size, start_i):
-                    if 0 <= i < (self.screen.get_height() / 50) and tree_counter > needed_tree_count:
+                    if 0 <= i < (self.screen.get_playable_height() / 50) and tree_counter > needed_tree_count:
                         if beginning is None:
                             beginning = i
                         if self.field[i][start_j] != 1:
@@ -70,7 +59,7 @@ class GameField:
                 beginning = None
                 end = None
                 for j in range(start_j + 1, start_j + size + 1):
-                    if 0 <= j < (self.screen.get_width() / 50) and tree_counter > needed_tree_count:
+                    if 0 <= j < (self.screen.get_playable_width() / 50) and tree_counter > needed_tree_count:
                         if beginning is None:
                             beginning = j
                         if self.field[start_i][j] != 1:
@@ -86,7 +75,7 @@ class GameField:
                 beginning = None
                 end = None
                 for i in range(start_i + 1, start_i + size + 1):
-                    if 0 <= i < (self.screen.get_height() / 50) and tree_counter > needed_tree_count:
+                    if 0 <= i < (self.screen.get_playable_height() / 50) and tree_counter > needed_tree_count:
                         if beginning is None:
                             beginning = i
                             print("----", i, start_j)
@@ -103,7 +92,7 @@ class GameField:
                 beginning = None
                 end = None
                 for j in range(start_j - size, start_j):
-                    if 0 <= j < (self.screen.get_width() / 50) and tree_counter > needed_tree_count:
+                    if 0 <= j < (self.screen.get_playable_width() / 50) and tree_counter > needed_tree_count:
                         if beginning is None:
                             beginning = j
                         if self.field[start_i][j] != 1:
@@ -133,3 +122,18 @@ class GameField:
         print(len(self.trees))
 
         return self.trees
+
+    def place_prizes(self):
+        prize_count = 10
+        while prize_count > 0:
+            for i in range(0, 10):
+                for j in range(0, 10):
+                    if self.field[i][j] == 1:
+                        if random() < 0.1:
+                            self.prizes.append(Prize(i, j))
+                            self.field[i][j] = 2
+                            prize_count -= 1
+                            if prize_count == 0:
+                                return self.prizes
+
+

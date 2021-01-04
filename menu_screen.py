@@ -4,8 +4,8 @@ from new_year_game.screen import Screen
 
 
 class MenuScreen(Screen):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, width, height):
+        super().__init__(width, height)
 
         self.start_button = None
         self.quit_button = None
@@ -19,9 +19,9 @@ class MenuScreen(Screen):
         quit_button_y = 190
 
         # create buttons
-        self.start_button = Button(self.screen, "Start game", BUTTON, BUTTON_HOVER, BLACK,
+        self.start_button = Button(self, "Start game", BUTTON, BUTTON_HOVER, BLACK,
                                    start_button_y, width, height, start_action)
-        self.quit_button = Button(self.screen, "Quit", BUTTON, BUTTON_HOVER, BLACK,
+        self.quit_button = Button(self, "Quit", BUTTON, BUTTON_HOVER, BLACK,
                                   quit_button_y, width, height, quit_action)
 
     def get_start_button(self):

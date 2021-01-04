@@ -31,7 +31,7 @@ class Santa(pygame.sprite.Sprite):
             self.rect.y -= self.speed
             if self.check_collision(field):
                 self.rect.y += self.speed
-        if self.rect.top < (self.screen.get_height() - self.image.get_height()) and keys[1]:
+        if self.rect.top < (self.screen.get_playable_height() - self.image.get_height()) and keys[1]:
             self.rect.y += self.speed
             if self.check_collision(field):
                 self.rect.y -= self.speed
