@@ -8,6 +8,8 @@ from new_year_game.text import Text
 import pygame
 from pygame import event
 
+
+# todo иногда попадает в бесконечный уикл
 class Game:
     def __init__(self):
         # run pygame
@@ -29,7 +31,6 @@ class Game:
         self.keys = [False, False, False, False]
         self.field = GameField(self.screen)
         self.wood = self.field.generate_field()
-
 
         # draw buttons
         self.menu_screen.draw_buttons(self.start, self.quit_game)
@@ -110,7 +111,7 @@ class Game:
                     elif event.key == pygame.K_LEFT:
                         self.keys[3] = False
 
-            self.game_field.update(self.keys)
+            self.game_field.update(self.keys, self.game_field)
 
             # rendering
             self.screen.fill(BACKGROUND)
